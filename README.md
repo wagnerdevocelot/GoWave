@@ -14,26 +14,31 @@ Uma empresa cria uma correspondência para enviar a todos e em seguida, mescla o
 
 ### Exemplo de template — mesclado com dados
 
-
+```
 Caro Sr. Jones,
 
 Você está cansado de contas altas de eletricidade?
 
 Notamos que sua casa em …
+```
 
+```
 Caro Sr. Smith,
 
 Você está cansado de contas altas de eletricidade?
 
 Notamos que sua casa em …
+```
 
 ### Exemplo de template
 
+```
 Caro {{Name}},
 
 Você está cansado de contas altas de eletricidade?
 
 Notamos que sua casa em …
+```
 
 Se você tiver alguma experiência com desenvolvimento web, você consegue olhar para uma página mesmo sem olhar o código fonte e identificar, o que é “template” e o que são “dados”.
 
@@ -152,7 +157,7 @@ Vamos testar aqui meu nome é: {{.Nome}}
 Minha idade: {{.Idade}}
 ```
 
-Quando a função ler esse arquivo e identificar as chaves duplas vamos ter dois dados que vem de uma struct. O ponto representa a struct em si e “Nome” sendo a propriedade da struct. Se fosse uma varável comum por exemplo, seria usado apenas o ponto, assim: {{.}}
+Quando a função ler esse arquivo e identificar as chaves duplas vamos ter dois dados que vem de uma struct. O ponto representa a struct em si e “Nome” sendo a propriedade da struct. Se fosse uma varável comum por exemplo, seria usado apenas o ponto, assim: ```{{.}}```
 
 Se eu estivesse passando um slice eu poderia usar uma [_Action_](https://golang.org/pkg/text/template/#hdr-Actions) dentro do template:
 
