@@ -1,5 +1,7 @@
 # Compreendendo Templates
 
+![](https://cdn-images-1.medium.com/max/800/1*bC82PrnjL07hdznY5iscZA.png)
+
 Um template nos permite criar um documento e em seguida, mesclar dados com ele.
 
 Estamos aprendendo sobre Templates para que possamos criar um documento, uma página da web e, em seguida, mesclar dados personalizados a essa página. Templates Web permitem fornecer resultados personalizados aos usuários.
