@@ -12,7 +12,7 @@ Outra exposição comum a Templates que a maioria de nós recebe todos os dias�
 
 Uma empresa cria uma correspondência para enviar a todos e em seguida, mescla os dados com esse template para personalizar a correspondência para cada indivíduo. O resultado:
 
-### Exemplo de template — mesclado com dados
+![](https://cdn-images-1.medium.com/max/800/1*lC1Z724ELieORXFr8kuz7w.png)
 
 ```
 Caro Sr. Jones,
@@ -30,7 +30,7 @@ Você está cansado de contas altas de eletricidade?
 Notamos que sua casa em …
 ```
 
-### Exemplo de template
+![](https://cdn-images-1.medium.com/max/800/1*P7a4r554VCirV1H7VJWT5Q.png)
 
 ```
 Caro {{Name}},
@@ -47,7 +47,7 @@ Me faz lembrar também daqueles brinquedos de criança com geometrias e cores, o
 ![Brinquedo de encaixe de formas geométricas nas cores azul, verde, vermelho e amarelo](https://cdn-images-1.medium.com/max/800/1*ix-hWS3QOiguAinKdLBG_g.png)
 
 
-## Parse e Execute
+![](https://cdn-images-1.medium.com/max/800/1*caOiMgSbHTQDiJWbQ7RpIA.png)
 
 
 Basicamente o que define o uso de templates em Go são duas ações, primeiro fazemos parse dos dados e depois executamos eles em alguma saída.
@@ -79,9 +79,9 @@ Então se você usou mais de um argumento em ParseFiles, pode ser que essa opç�
 
 Agora já sabemos pra quê servem templates e como parsear e executar um ou mais templates. Vamos ver então um exemplo de como parsear mais de um template de forma otimizada.
 
-### Parse Glob
+![](https://cdn-images-1.medium.com/max/800/1*n7bFZTkdYwfZaqc7rDs_ig.png)
 
-(Arquivos)[https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/perform]
+[Arquivos](https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/perform)
 
 Logo de inicio temos a importação dos pacotes de “_text/template_”, “_log_” para tratamento de erros e “_os_” para usar como saída padrão dos templates parseados.
 
@@ -142,9 +142,9 @@ func main() {
 
 A ordem de execução seria arquivo1, arquivo1, arquivo2, arquivo3, no caso o arquivo 1 retorna duas vezes pois ele é executado individualmente na função _tpl.ExecuteTemplate_ e na _tpl.Execute_ pois ele seria o primeiro na ordem dentro da pasta.
 
-## Actions e Notações
+![](https://cdn-images-1.medium.com/max/800/1*AaM8JH07AJLvYb4n4t7zpQ.png)
 
-(Arquivos)[https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/templateData]
+[Arquivos](https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/templateData)
 
 Lembrando a questão do exemplo do e-mail, até o momento apenas fizemos o parse e a saída dos nossos templates, mas não os tornamos dinâmicos de fato, para isso precisaremos passar tipos de dados do Go dentro dos nossos templates.
 
@@ -217,9 +217,9 @@ Minha idade: 29
 
 Obs. As vezes quando salvamos o arquivo, caso você mesmo não tenha inserido as importações e tenha deixado isso para o fmt fazer automaticamente é muito provável que ele importe o pacote errado, pois exite text/template e html/template os dois compartilham as mesmas funções com a diferença de que o pacote de template para html possui opções de segurança.
 
-## Exercicio
+![](https://cdn-images-1.medium.com/max/800/1*BDs9O4cfgY14Yu5dpalOLA.png)
 
-(Arquivos)[https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/twitter]
+[Arquivos](https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/twitter)
 
 Agora que já temos certa ideia de como podemos parsear texto e usá-lo em uma saída vamos tentar usar esse conhecimento como representação de dados em uma página. Apesar de não estarmos utilizando html, ainda, já podemos pensar nessas representações, inclusive acho mais interessante pois as tags html a principio acabam poluindo o documento, com texto simples você tem menos ruído.
 
