@@ -1,0 +1,2 @@
+Vamos testar aqui meu nome é: {{.Nome}}
+Minha idade: {{.Idade}}

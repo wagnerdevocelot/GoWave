@@ -1,0 +1,14 @@
+{{.Nome}}
+{{.Tweets}} Tweets
+{{.Capa}}
+
+{{.Avatar}} Opções  Direct  {{.Notificação}} {{if .Follow}} Seguindo {{else}} Seguir {{end}}
+{{.Nome}}
+@{{.User}}
+
+{{.Bio}}
+
+{{.Localização}}    {{.Site}}  Ingressou em {{.DataDaConta}}
+
+{{.Seguindo}} Seguindo  {{.Seguidores}} Seguidores
+
