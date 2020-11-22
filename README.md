@@ -416,7 +416,7 @@ fm vai como argumento para [**Funcs()**](https://golang.org/src/text/template/te
 
 A partir daqui é o básico, instanciar o objeto com os dados, passar como argumento para função de Execute com uma escolha de saída.
 
--   **Aqui você pode ver o arquivo completo**
+[**Arquivo**](https://github.com/wagnerdevocelot/GoWave/blob/master/template_funcs/main.go)
 
 Atribuímos “apelidos” para as funções, passamos as funções como parametro na chaining de [**ParseFiles()**](https://golang.org/src/text/template/helper.go?s=2001:2070#L42).
 
@@ -500,7 +500,8 @@ Talvez você se pergunte pra que serve o [**template.new**](https://golang.org/s
 
 Outro exemplo de aplicação de função que não viola o principio de “Separation of Concerns” é a utilização de funções para modificar os dados de Horário e Data, aplicamos com funções uma disposição diferente no template, mas não estamos de fato fuçando no dado real.
 
--   Aqui um exemplo da aplicação
+Exemplo da aplicação: [**clique aqui**](https://github.com/wagnerdevocelot/GoWave/tree/master/date_formatting)
+
 
 Podemos usar também Pipelines para aplicar o mesmo dado a várias funções.
 
@@ -543,7 +544,8 @@ Eu quero uma página _index_, mas eu não quero colocar nela, o conteúdo do meu
 
 Tem uma template golang com uma notation diferente, “{{define “”}} {{end}}” define e uma string que seria o nome desse template.
 
-footer.gohtml
+
+[footer.gohtml](https://github.com/wagnerdevocelot/GoWave/blob/master/templates_aninhados/templates/footer.gohtml)
 ```html
 {{define "footer"}}
 <footer>
@@ -552,7 +554,8 @@ footer.gohtml
 {{end}}
 ```
 
-list.gohtml
+
+[list.gohtml](https://github.com/wagnerdevocelot/GoWave/blob/master/templates_aninhados/templates/list.gohtml)
 ```html
 {{define "lista"}}
     <h2>Lista de compras</h2>
@@ -569,7 +572,8 @@ Repare que o nome dado na string não é o mesmo do arquivo, pois quando chamar 
 
 Assim:
 
-index.gohtml
+
+[index.gohtml](https://github.com/wagnerdevocelot/GoWave/blob/master/templates_aninhados/templates/index.gohtml)
 ```html
 <!DOCTYPE html>
 <html>
@@ -615,9 +619,11 @@ A nossa saída:
 
 O arquivo main.go faz as chamadas normalmente, usando [**ParseGlob()**](https://golang.org/src/text/template/helper.go?s=3809:3858#L93) para parsear todos os templates de uma vez.
 
--   **Caso queira consultar os arquivos: clique aqui**
 
-Caso seja necessário é possivel passar dados dentro de templates aninhados, chamando o dado nas duas notations.
+Caso queira consultar o arquivo: [clique aqui](https://github.com/wagnerdevocelot/GoWave/blob/master/templates_aninhados/main.go)
+
+
+Caso seja necessário é possível passar dados dentro de templates aninhados, chamando o dado nas duas notations.
 
 Definição de onde o dado vai aparecer no template
 ```html
