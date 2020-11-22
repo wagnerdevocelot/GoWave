@@ -12,7 +12,7 @@ Outra exposição comum a Templates que a maioria de nós recebe todos os dias�
 
 Uma empresa cria uma correspondência para enviar a todos e em seguida, mescla os dados com esse template para personalizar a correspondência para cada indivíduo. O resultado:
 
-![](https://cdn-images-1.medium.com/max/800/1*lC1Z724ELieORXFr8kuz7w.png)
+![](https://cdn-images-1.medium.com/max/800/1*GDYB6LMRnCaMug1ZT1_obA.png)
 
 ```
 Caro Sr. Jones,
@@ -30,7 +30,7 @@ Você está cansado de contas altas de eletricidade?
 Notamos que sua casa em …
 ```
 
-![](https://cdn-images-1.medium.com/max/800/1*P7a4r554VCirV1H7VJWT5Q.png)
+![](https://cdn-images-1.medium.com/max/800/1*qqceqAkGRkfe-I_pBjpNaw.png)
 
 ```
 Caro {{Name}},
@@ -47,7 +47,7 @@ Me faz lembrar também daqueles brinquedos de criança com geometrias e cores, o
 ![Brinquedo de encaixe de formas geométricas nas cores azul, verde, vermelho e amarelo](https://cdn-images-1.medium.com/max/800/1*ix-hWS3QOiguAinKdLBG_g.png)
 
 
-![](https://cdn-images-1.medium.com/max/800/1*caOiMgSbHTQDiJWbQ7RpIA.png)
+![](https://cdn-images-1.medium.com/max/800/1*Ir_PP3OQJVPgVtv0qhgPPA.png)
 
 
 Basicamente o que define o uso de templates em Go são duas ações, primeiro fazemos parse dos dados e depois executamos eles em alguma saída.
@@ -79,7 +79,7 @@ Então se você usou mais de um argumento em ParseFiles, pode ser que essa opç�
 
 Agora já sabemos pra quê servem templates e como parsear e executar um ou mais templates. Vamos ver então um exemplo de como parsear mais de um template de forma otimizada.
 
-![](https://cdn-images-1.medium.com/max/800/1*n7bFZTkdYwfZaqc7rDs_ig.png)
+![](https://cdn-images-1.medium.com/max/800/1*3l36sQSo4wWM1EHVdEbdkw.png)
 
 [Arquivos](https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/perform)
 
@@ -142,7 +142,7 @@ func main() {
 
 A ordem de execução seria arquivo1, arquivo1, arquivo2, arquivo3, no caso o arquivo 1 retorna duas vezes pois ele é executado individualmente na função _tpl.ExecuteTemplate_ e na _tpl.Execute_ pois ele seria o primeiro na ordem dentro da pasta.
 
-![](https://cdn-images-1.medium.com/max/800/1*AaM8JH07AJLvYb4n4t7zpQ.png)
+![](https://cdn-images-1.medium.com/max/800/1*soEy9d4wCaSova72Hn2s0w.png)
 
 [Arquivos](https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/templateData)
 
@@ -217,7 +217,7 @@ Minha idade: 29
 
 Obs. As vezes quando salvamos o arquivo, caso você mesmo não tenha inserido as importações e tenha deixado isso para o fmt fazer automaticamente é muito provável que ele importe o pacote errado, pois exite text/template e html/template os dois compartilham as mesmas funções com a diferença de que o pacote de template para html possui opções de segurança.
 
-![](https://cdn-images-1.medium.com/max/800/1*BDs9O4cfgY14Yu5dpalOLA.png)
+![](https://cdn-images-1.medium.com/max/800/1*slsz2_kofXUtkg99pqzPwQ.png)
 
 [Arquivos](https://github.com/wagnerdevocelot/VaporWeb-GoWave/tree/master/twitter)
 
@@ -349,4 +349,323 @@ Rio de Janeiro, Brasil    tecnogueto.com.br  Ingressou em Maio de 2018
 100 Seguindo  3.2343 Seguidores
 ```
 
-Obviamente, nada parecido com a página, a intenção nem é essa, mas sim entender melhor como is tipos Go se relacionam em um template. Quando falar mais sobre o pacote html/template as coisas vão ficar ainda mais interessantes ^^
+Obviamente, nada parecido com a página, a intenção nem é essa, mas sim entender melhor como is tipos Go se relacionam em um template. Quando falar mais sobre o pacote html/template as coisas vão ficar ainda mais interessantes.
+
+
+![](https://cdn-images-1.medium.com/max/800/1*-XRRrXYvjbxv6RceHdTgJw.png)
+
+Usar funções com dados em template pode ajudar com alguns tipos de tarefas e não seriam exatamente violações de “Separation of Concerns”, modificar a forma como os dados são apresentados é uma forma de se aplicar isso.
+
+Uma função no template que vai modificar um dado lá no Data Base já é outra conversa.
+
+
+![](https://cdn-images-1.medium.com/max/800/1*nsWgGlt59ppGf1pS9HWIMQ.png)
+
+Podemos passar funções no template, vamos escolher aqui duas funções bem simples.
+
+**_A primeira_**:
+
+_Retorna os três primeiros caracteres de uma string passada em argumento, tranquilo._
+```go
+func firstThree(s string) string {
+	s = strings.TrimSpace(s)
+	if len(s) >= 3 {
+		s = s[:3]
+	}
+	return s
+}
+```
+
+**_A segunda_**:
+
+_Uma função que já vem implementada no pacote string do Go._
+```go
+strings.ToUpper
+```
+
+![](https://cdn-images-1.medium.com/max/800/1*LPDK-a3qvE8fQVm-8iS5Iw.png)
+
+Já conhecemos as funções, agora como elas são passadas no template?
+
+Essa estrutura já é nossa velha conhecida, porém temos duas modificações, [**template.new**](https://golang.org/src/text/template/template.go?s=1022:1053#L27) inicia um template, o foco por enquanto é [**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160) que vem antes de [**ParseFiles()**](https://golang.org/src/text/template/helper.go?s=2001:2070#L42) no method chaining.
+
+```go
+func init() {
+	tpl = template.Must(template.New("").Funcs(fm).ParseFiles("tpl.gohtml"))
+}
+```
+[**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160) tem um argumento do tipo [**FuncMap**](https://golang.org/src/text/template/funcs.go?s=1008:1043#L21) que é esse “fm”, vamos dar uma olhada nele mas precisamos entender algumas particularidades antes.
+
+[**FuncMap**](https://golang.org/src/text/template/funcs.go?s=1008:1043#L21) recebe dois argumentos, uma string e uma interface vazia.
+
+Interface vazia é uma interface sem nenhum método, um tipo Go tem pelo menos nenhum método, a interface vazia implementa todos os tipos Go, inclusive os tipos customizados que você quiser criar.
+
+Então significa que [**FuncMap**](https://golang.org/src/text/template/funcs.go?s=1008:1043#L21) recebe como argumento uma string e qualquer coisa.
+
+![](https://cdn-images-1.medium.com/max/800/1*2WpBuvei_6Dmqe9IMGKzaA.png)
+
+Estamos passando uma string que vai funcionar como apelido das nossas funções e as funções em si que é o argumento da interface vazia que recebe qualquer coisa.
+
+```go
+var fm = template.FuncMap{
+	"uc": strings.ToUpper,
+	"ft": firstThree,
+}
+```
+fm vai como argumento para [**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160) e em seguida processado em [**ParseFiles()**](https://golang.org/src/text/template/helper.go?s=2001:2070#L42) que projeta os dados no template juntamente com as funções pré definidas.
+
+A partir daqui é o básico, instanciar o objeto com os dados, passar como argumento para função de Execute com uma escolha de saída.
+
+-   **Aqui você pode ver o arquivo completo**
+
+Atribuímos “apelidos” para as funções, passamos as funções como parametro na chaining de [**ParseFiles()**](https://golang.org/src/text/template/helper.go?s=2001:2070#L42).
+
+Como decidimos quais dados irão receber essas funções? Usamos o apelido da função no template!
+
+-   uc = Upper Case
+-   ft = First three
+
+```html
+{{uc .}} <!-- apelido + dado -->
+```
+
+![](https://cdn-images-1.medium.com/max/800/1*orG1YOaeb7TLpxdvbpqVAw.png)
+
+Repare que estamos usando html, mas o pacote ainda é o text/template.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>functions</title>
+</head>
+<body>
+
+{{range .}}
+{{uc .Manufacturer}}
+{{end}}
+
+
+{{range .}}
+{{ft .Manufacturer}}
+{{end}}
+
+
+</body>
+</html>
+```
+
+Range passa por duas structs que estão dentro de um slice do qual usaremos as funções na propriedade Manufacturer, por isso o Range é aplicado somente ao “.” que é uma struct chamada car.
+
+A nossa saída de template:
+
+```text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>functions</title>
+</head>
+<body>
+
+FORD
+
+TOYOTA
+
+
+For
+
+Toy
+
+</body>
+</html>
+```
+
+A primeira deixando os nomes das marcas em maiúsculas, e a segunda imprimindo somente os três primeiros caracteres.
+
+![](https://cdn-images-1.medium.com/max/800/1*1cEGPl1Ksnlk5Plj3hbFmw.png) 
+
+Já entendemos melhor o resultado, vamos analisar essa cadeia de métodos novamente pois é bem fácil se perder aqui.
+
+```go
+	tpl = template.Must(template.New("").Funcs(fm).ParseFiles("tpl.gohtml"))
+```
+
+Talvez você se pergunte pra que serve o [**template.new**](https://golang.org/src/text/template/template.go?s=1022:1053#L27), se verificarmos a documentação, [**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160)  tem um receptor com um ponteiro para Template então precisamos ter um template existente na cadeia de métodos antes de usar [**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160).
+
+[**template.new**](https://golang.org/src/text/template/template.go?s=1022:1053#L27) vai criar esse template vazio que vai ser usado como receptor em [**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160)  que em seguida vai aplicar os “apelidos” das nossas funções no template vazio, para só então fazermos o ParseFiles.
+
+![](https://cdn-images-1.medium.com/max/800/1*om_C7IEuDdk_eaU_O5EkHA.png)
+
+Outro exemplo de aplicação de função que não viola o principio de “Separation of Concerns” é a utilização de funções para modificar os dados de Horário e Data, aplicamos com funções uma disposição diferente no template, mas não estamos de fato fuçando no dado real.
+
+-   Aqui um exemplo da aplicação
+
+Podemos usar também Pipelines para aplicar o mesmo dado a várias funções.
+
+Levando em consideração ainda as funções do exemplo anterior de upercase e três caracteres:
+
+```text
+{{. | uc | ft }}
+```
+
+Se o dado utilizado fosse Fiat a nossa saída seria assim:
+
+```text
+Fiat    FIAT    Fia
+```
+
+Dependendo da ocasião ter funções que modificam a disposição dos dados de acordo com o usurário tendo como base uma condicional no template é uma opção comum.
+
+![](https://cdn-images-1.medium.com/max/800/1*rYma0lQ4ee69ouEUqsbHgA.png)
+
+Além das funções que podem ser passadas para o template com [**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160) existem funções globais de template que podemos usar seus “apelidos” sem a necessidade de utilizar [**template.new**](https://golang.org/src/text/template/template.go?s=1022:1053#L27) e [**Funcs()**](https://golang.org/src/text/template/template.go?s=5031:5082#L160) pois essas funções já são globais no pacote de template.
+
+Um exemplo simples é a função de index, podemos chamar cada item de um slice através do seu index ao invés de chamar todos de uma só vez com range.
+
+Assim:
+```html
+{{index . 0}} <!-- chamando o item 0 do slice -->
+{{index . 2}} <!-- chamando o item 2 do slice -->
+{{index . 1}} <!-- chamando o item 1 do slice -->
+```
+
+Aqui na documentação você encontra uma lista com todas as funções globais para templates: [Clique aqui](https://golang.org/pkg/text/template/#hdr-Functions)
+
+![](https://cdn-images-1.medium.com/max/800/1*Zo94UUz9-X2LhNNA3is92A.png)
+
+É possivel modularizar páginas assim você tem vários arquivos especializados em uma parte especifica da sua página principal e então chamar esse pedaço onde for necessário. É um pouco parecido com as [Partials](https://guides.rubyonrails.org/layouts_and_rendering.html#using-partials) do Ruby on Rails.
+
+Exemplo:
+
+Eu quero uma página _index_, mas eu não quero colocar nela, o conteúdo do meu _footer_ e _minha lista de compras_ pois se apresentar no _index_ e estiver em um só arquivo vai se tornar confuso para dar manutenção quando essa pagina tiver uma quantidade muito grande de conteúdo.
+
+Tem uma template golang com uma notation diferente, “{{define “”}} {{end}}” define e uma string que seria o nome desse template.
+
+footer.gohtml
+```html
+{{define "footer"}}
+<footer>
+  Algumas informações de copyright ou talvez alguma informação do autor?
+</footer>
+{{end}}
+```
+
+list.gohtml
+```html
+{{define "lista"}}
+    <h2>Lista de compras</h2>
+
+    <ul>
+      <li>Café</li>
+      <li>Pão Integral</li>
+      <li>Manteiga</li>
+    </ul>
+{{end}}
+```
+
+Repare que o nome dado na string não é o mesmo do arquivo, pois quando chamar esses dois arquivos separados no index, vamos chamar pela string.
+
+Assim:
+
+index.gohtml
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lista de Compras</title>
+  </head>
+  <body>
+	{{template "lista"}}
+  </body>
+  {{template "footer"}}
+</html>
+```
+Usamos a notation template seguida do nome do template.
+
+
+A nossa saída:
+```text
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lista de Compras</title>
+  </head>
+  <body>
+  
+    <h2>Lista de compras</h2>
+
+    <ul>
+      <li>Café</li>
+      <li>Pão Integral</li>
+      <li>Manteiga</li>
+    </ul>
+
+  </body>
+  
+<footer>
+  Algumas informações de copyright ou talvez alguma informação do autor?
+</footer>
+
+</html>
+```
+
+O arquivo main.go faz as chamadas normalmente, usando [**ParseGlob()**](https://golang.org/src/text/template/helper.go?s=3809:3858#L93) para parsear todos os templates de uma vez.
+
+-   **Caso queira consultar os arquivos: clique aqui**
+
+Caso seja necessário é possivel passar dados dentro de templates aninhados, chamando o dado nas duas notations.
+
+Definição de onde o dado vai aparecer no template
+```html
+{{define "footer"}}
+	<p>Olá senhor {{.}} gostariamos muito de...</P>
+{{end}}	
+```
+Chamada do template passando o dado:
+```html
+{{template "footer" .}}
+```
+
+![](https://cdn-images-1.medium.com/max/800/1*u6oLiOcFH-zFHsseIZJM4w.png)
+
+Eu extrai o html da página de [**documentação**](http://www.golangbr.org/doc/) do Go, dei uma limpada nas coisas que não eram necessárias como o Go playground e etc.
+
+**- Você pode baixar o arquivo aqui**
+
+O objetivo:
+
+Criar tipos de dados diferentes para
+ - Titulos ```H1,H2,H3``` e etc
+ - Links ```<a></a>```
+ - Paragrafos ```<p></p>```
+*Titulos*, *Links* e *Paragrafos* serão slices e cada um pertence a sua própria struct, no total três.
+
+Cada titulo, link e Paragrafo deve:
+- Ser chamado no template através do seu index no slice.
+
+Onde houver divs: ```<div></div>```
+- Precisa ser feito um template aninhado.
+
+Nesse paragrafo aplique uma função a sua escolha: ```<p>Tutoriais por Daniel Mazza.</p>```
+Sugestão:
+- Inverter strings
+
+Opcional:
+-   Pesquisar sobre o pacote [**Time**](https://golang.org/pkg/time/) e passar no final do **body** uma função que retorna Dia/Mês/Ano
+
+O pacote de templates termina aqui, porém existe ainda muito mais na documentação que eu recomendo a leitura.
+
+No repositório desse artigo vou deixar uma pasta de respostas livre nos dois exercícios, você poderá clonar esse repo, colocar seu exercício nesse repositório com seu user na pasta, ex:
+
+```text
+├── exercicio
+|	 └── respostas
+|		 └── wagnerdevocelot
+└── index.gohtml
+```	
+
+A trilha de web não termina aqui, falaremos sobre servers na próxima oportunidade.
