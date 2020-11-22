@@ -425,7 +425,7 @@ Como decidimos quais dados irão receber essas funções? Usamos o apelido da fu
 -   uc = Upper Case
 -   ft = First three
 
-```html
+```
 {{uc .}} <!-- apelido + dado -->
 ```
 
@@ -542,7 +542,7 @@ Exemplo:
 
 Eu quero uma página _index_, mas eu não quero colocar nela, o conteúdo do meu _footer_ e _minha lista de compras_ pois se apresentar no _index_ e estiver em um só arquivo vai se tornar confuso para dar manutenção quando essa pagina tiver uma quantidade muito grande de conteúdo.
 
-Tem uma template golang com uma notation diferente, “{{define “”}} {{end}}” define e uma string que seria o nome desse template.
+Tem uma template golang com uma notation diferente, ```{{define “”}} {{end}}``` define e uma string que seria o nome desse template.
 
 
 [footer.gohtml](https://github.com/wagnerdevocelot/GoWave/blob/master/templates_aninhados/templates/footer.gohtml)
@@ -640,23 +640,23 @@ Chamada do template passando o dado:
 
 Eu extrai o html da página de [**documentação**](http://www.golangbr.org/doc/) do Go, dei uma limpada nas coisas que não eram necessárias como o Go playground e etc.
 
-**- Você pode baixar o arquivo aqui**
+Você pode baixar o arquivo: [aqui](https://github.com/wagnerdevocelot/GoWave/blob/master/exercicio/index.gohtml)
 
 O objetivo:
 
 Criar tipos de dados diferentes para
- - Titulos ```H1,H2,H3``` e etc
- - Links ```<a></a>```
- - Paragrafos ```<p></p>```
+ - Titulos "H1,H2,H3" e etc
+ - Links
+ - Paragrafos
 *Titulos*, *Links* e *Paragrafos* serão slices e cada um pertence a sua própria struct, no total três.
 
 Cada titulo, link e Paragrafo deve:
 - Ser chamado no template através do seu index no slice.
 
-Onde houver divs: ```<div></div>```
+Onde houver divs:
 - Precisa ser feito um template aninhado.
 
-Nesse paragrafo aplique uma função a sua escolha: ```<p>Tutoriais por Daniel Mazza.</p>```
+Nesse paragrafo aplique uma função a sua escolha: **Tutoriais por Daniel Mazza**
 Sugestão:
 - Inverter strings
 
